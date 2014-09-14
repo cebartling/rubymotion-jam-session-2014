@@ -105,12 +105,10 @@ class SkyLineScene < SKScene
 
 
   def touchesBegan(touches, withEvent: event)
-    puts "here"
-
     touch = touches.anyObject
     location = touch.locationInNode(self)
     node = nodeAtPoint(location)
-    puts node.name
+    # puts node.name
 
     if node.name == "pause"
       if self.isPaused
@@ -121,7 +119,6 @@ class SkyLineScene < SKScene
     else
       bird_jump
     end
-
   end
 
   def bird_jump
