@@ -9,18 +9,18 @@ class SkyLineScene < SKScene
 
     add_skyline
     add_ground
-    add_bird
-    add_pause_label
-    begin_spawning_pipes
+    add_dude
+    # add_pause_label
+    # begin_spawning_pipes
   end
 
-  def add_pause_label
-    label = SKLabelNode.labelNodeWithFontNamed("Chalkduster")
-    label.text = "Pause"
-    label.position = CGPointMake(80, 500)
-    label.name = "pause"
-    addChild label
-  end
+  # def add_pause_label
+  #   label = SKLabelNode.labelNodeWithFontNamed("Chalkduster")
+  #   label.text = "Pause"
+  #   label.position = CGPointMake(80, 500)
+  #   label.name = "pause"
+  #   addChild label
+  # end
 
   def add_skyline
     texture = SKTexture.textureWithImageNamed("skyline.png")
@@ -67,8 +67,8 @@ class SkyLineScene < SKScene
     addChild PhysicalGround.alloc.init
   end
 
-  def add_bird
-    addChild Bird.alloc.init
+  def add_dude
+    addChild Dude.alloc.init
   end
 
   def begin_spawning_pipes
@@ -100,7 +100,7 @@ class SkyLineScene < SKScene
     check_controller
 
     move_background
-    rotate_bird
+    rotate_dude
   end
 
 
@@ -110,26 +110,26 @@ class SkyLineScene < SKScene
     node = nodeAtPoint(location)
     # puts node.name
 
-    if node.name == "pause"
-      if self.isPaused
-        self.paused = false
-      else
-        self.paused = true
-      end
-    else
-      bird_jump
-    end
+    # if node.name == "pause"
+    #   if self.isPaused
+    #     self.paused = false
+    #   else
+    #     self.paused = true
+    #   end
+    # else
+      dude_jump
+    # end
   end
 
-  def bird_jump
-    bird = childNodeWithName("bird")
+  def dude_jump
+    dude = childNodeWithName(Dude::NAME)
 
-    bird.physicsBody.velocity = CGVectorMake(0, 0)
-    bird.physicsBody.applyImpulse CGVectorMake(0, 8)
+    dude.physicsBody.velocity = CGVectorMake(0, 0)
+    dude.physicsBody.applyImpulse CGVectorMake(0, 8)
   end
 
-  def rotate_bird
-    node = childNodeWithName("bird")
+  def rotate_dude
+    node = childNodeWithName(Dude::NAME)
     dy = node.physicsBody.velocity.dy
     node.zRotation = max_rotate(dy * (dy < 0 ? 0.003 : 0.001))
   end
@@ -141,7 +141,7 @@ class SkyLineScene < SKScene
       controller = controller.first.extendedGamepad
 
       if controller.buttonA.isPressed?
-        bird_jump
+        dude_jump
       end
     end
   end
@@ -159,9 +159,9 @@ class SkyLineScene < SKScene
   # Contact delegate method
   #
   # def didBeginContact(contact)
-  #   bird = childNodeWithName("bird")
-  #   bird.position = CGPointMake(80, CGRectGetMidY(self.frame))
-  #   bird.zRotation = 0
+  #   dude = childNodeWithName(Dude::NAME)
+  #   dude.position = CGPointMake(80, CGRectGetMidY(self.frame))
+  #   dude.zRotation = 0
   #
   #   enumerateChildNodesWithName "pipes", usingBlock:-> (node, stop) { node.removeFromParent }
   # end
@@ -170,14 +170,14 @@ class SkyLineScene < SKScene
   #
   def didBeginContact(contact)
     if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask
-      bird = contact.bodyA
+      dude = contact.bodyA
     else
-      bird = contact.bodyB
+      dude = contact.bodyB
     end
 
-    if bird.categoryBitMask == Bird::BIRD
-      bird.node.zRotation = 0
-      bird.node.position = CGPointMake(80, CGRectGetMidY(self.frame))
+    if dude.categoryBitMask == Bird::BIRD
+      dude.node.zRotation = 0
+      dude.node.position = CGPointMake(80, CGRectGetMidY(self.frame))
 
       enumerateChildNodesWithName "pipes", usingBlock: -> (node, stop) { node.removeFromParent }
     end

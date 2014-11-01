@@ -16,7 +16,7 @@ class GameViewController < UIViewController
     super
 
     unless self.view.scene
-      scene = SkyLineScene.alloc.initWithSize(self.view.bounds.size)
+      scene = SkyLineScene.alloc.initWithSize self.view.bounds.size
       scene.scaleMode = SKSceneScaleModeAspectFill
       view.presentScene scene
     end
