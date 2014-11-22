@@ -21,7 +21,7 @@ class Dude < SKSpriteNode
       SKTexture.textureWithImageNamed("dude_one.png")
     ]
     animation = SKAction.animateWithTextures(textures, timePerFrame: 0.15)
-    SKAction.repeatActionForever animation
+    SKAction.repeatActionForever(animation)
   end
 
   def physics_body

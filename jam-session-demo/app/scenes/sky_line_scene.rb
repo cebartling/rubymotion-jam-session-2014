@@ -1,6 +1,8 @@
 class SkyLineScene < SKScene
   WORLD = 0x1 << 1
 
+  NODE_NAME = 'skyline'
+
   def didMoveToView(view)
     super
 
@@ -29,7 +31,7 @@ class SkyLineScene < SKScene
       x_position = mid_x + (i * mid_x * 2)
       skyline = SKSpriteNode.spriteNodeWithTexture(texture)
       skyline.position = CGPointMake(x_position, mid_y)
-      skyline.name = "skyline"
+      skyline.name = NODE_NAME
       skyline.zPosition = -20
       skyline.scale = 1.12
       # skyline.runAction scroll_action(mid_x, 0.1)
@@ -41,15 +43,15 @@ class SkyLineScene < SKScene
   # Alternative method to using actions.
   #
   def move_background
-    self.enumerateChildNodesWithName "skyline", usingBlock: -> (node, stop) {
-      velocity = CGPointMake(-20, 0)
-      movement_amount = CGPointMake(velocity.x * @delta, velocity.y * @delta)
-      node.position = CGPointMake(node.position.x + movement_amount.x, node.position.y + movement_amount.y)
+    self.enumerateChildNodesWithName NODE_NAME, usingBlock: -> (node, stop) {
+                                                velocity = CGPointMake(-20, 0)
+                                                movement_amount = CGPointMake(velocity.x * @delta, velocity.y * @delta)
+                                                node.position = CGPointMake(node.position.x + movement_amount.x, node.position.y + movement_amount.y)
 
-      if node.position.x <= -node.size.width / 2
-        node.position = CGPointMake((node.position.x + node.size.width) * 2, node.position.y)
-      end
-    }
+                                                if node.position.x <= (-node.size.width / 2)
+                                                  node.position = CGPointMake((node.position.x + node.size.width) * 2, node.position.y)
+                                                end
+                                              }
   end
 
   def add_ground
@@ -64,24 +66,24 @@ class SkyLineScene < SKScene
       addChild ground
     end
 
-    addChild PhysicalGround.alloc.init
+    addChild(PhysicalGround.alloc.init)
   end
 
   def add_dude
-    addChild Dude.alloc.init
+    addChild(Dude.alloc.init)
   end
 
-  def begin_spawning_pipes
-    pipes = SKAction.performSelector("add_pipes", onTarget: self)
-    delay = SKAction.waitForDuration(4.0)
-    sequence = SKAction.sequence([pipes, delay])
+  # def begin_spawning_pipes
+  #   pipes = SKAction.performSelector("add_pipes", onTarget: self)
+  #   delay = SKAction.waitForDuration(4.0)
+  #   sequence = SKAction.sequence([pipes, delay])
+  #
+  #   runAction SKAction.repeatActionForever(sequence)
+  # end
 
-    runAction SKAction.repeatActionForever(sequence)
-  end
-
-  def add_pipes
-    addChild PipePair.alloc.init
-  end
+  # def add_pipes
+  #   addChild PipePair.alloc.init
+  # end
 
   # This action is used for both the ground and sky.
   #
@@ -108,24 +110,13 @@ class SkyLineScene < SKScene
     touch = touches.anyObject
     location = touch.locationInNode(self)
     node = nodeAtPoint(location)
-    # puts node.name
-
-    # if node.name == "pause"
-    #   if self.isPaused
-    #     self.paused = false
-    #   else
-    #     self.paused = true
-    #   end
-    # else
-      dude_jump
-    # end
+    dude_jump
   end
 
   def dude_jump
     dude = childNodeWithName(Dude::NAME)
-
-    dude.physicsBody.velocity = CGVectorMake(0, 0)
-    dude.physicsBody.applyImpulse CGVectorMake(0, 8)
+    dude.physicsBody.velocity = CGVectorMake(0, 2)
+    dude.physicsBody.applyImpulse CGVectorMake(0, 80)
   end
 
   def rotate_dude
@@ -139,7 +130,6 @@ class SkyLineScene < SKScene
 
     if controllers.count > 1
       controller = controller.first.extendedGamepad
-
       if controller.buttonA.isPressed?
         dude_jump
       end
