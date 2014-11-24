@@ -10,17 +10,8 @@ class SkyLineScene < SKScene
     add_skyline
     add_ground
     add_dude
-    # add_pause_label
-    # begin_spawning_pipes
+    begin_throwing_white_russians
   end
-
-  # def add_pause_label
-  #   label = SKLabelNode.labelNodeWithFontNamed("Chalkduster")
-  #   label.text = "Pause"
-  #   label.position = CGPointMake(80, 500)
-  #   label.name = "pause"
-  #   addChild label
-  # end
 
   def add_skyline
     texture = SKTexture.textureWithImageNamed("skyline2.png")
@@ -71,18 +62,17 @@ class SkyLineScene < SKScene
     addChild(Dude.alloc.init)
   end
 
-  # def begin_spawning_pipes
-  #   pipes = SKAction.performSelector("add_pipes", onTarget: self)
-  #   delay = SKAction.waitForDuration(4.0)
-  #   sequence = SKAction.sequence([pipes, delay])
+  def begin_throwing_white_russians
+    white_russians = SKAction.performSelector("throw_white_russian", onTarget: self)
+    sequence = SKAction.sequence([white_russians, SKAction.waitForDuration(4.0)])
+    runAction SKAction.repeatActionForever(sequence)
+  end
+
+  def throw_white_russian
+    addChild WhiteRussian.alloc.init
+  end
+
   #
-  #   runAction SKAction.repeatActionForever(sequence)
-  # end
-
-  # def add_pipes
-  #   addChild PipePair.alloc.init
-  # end
-
   # This action is used for both the ground and sky.
   #
   def scroll_action(x, duration)
