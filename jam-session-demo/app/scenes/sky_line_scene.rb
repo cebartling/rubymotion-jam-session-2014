@@ -5,10 +5,8 @@ class SkyLineScene < SKScene
 
   def didMoveToView(view)
     super
-
     physicsWorld.gravity = CGVectorMake(0.0, -5.0)
     physicsWorld.contactDelegate = self
-
     add_skyline
     add_ground
     add_dude
@@ -25,7 +23,7 @@ class SkyLineScene < SKScene
   # end
 
   def add_skyline
-    texture = SKTexture.textureWithImageNamed("skyline.png")
+    texture = SKTexture.textureWithImageNamed("skyline2.png")
 
     2.times do |i|
       x_position = mid_x + (i * mid_x * 2)
