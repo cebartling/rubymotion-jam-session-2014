@@ -1,10 +1,12 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    bacon-expect (1.0.3)
     rake (10.2.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  bacon-expect
   rake

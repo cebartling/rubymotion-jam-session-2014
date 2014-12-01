@@ -1,4 +1,5 @@
 class GameViewController < UIViewController
+
   def loadView
     view = SKView.new
     view.showsFPS = true

@@ -13,4 +13,16 @@ Motion::Project::App.setup do |app|
   app.name = 'jam-session-demo'
   app.frameworks += ["SpriteKit", "GameController"]
   app.interface_orientations = [:portrait]
+  app.entitlements['keychain-access-groups'] = [
+    app.seed_id + '.' + app.identifier
+  ]
+  unless ENV['CODESIGN_CERTIFICATE']
+     raise "The 'CODESIGN_CERTIFICATE' environment variable must be set prior to building the app."
+  end
+  app.codesign_certificate = ENV['CODESIGN_CERTIFICATE']
+
+  unless ENV['PROVISIONING_PROFILE']
+    raise "The 'PROVISIONING_PROFILE' environment variable must be set prior to building the app."
+  end
+  app.provisioning_profile = ENV['PROVISIONING_PROFILE']
 end
