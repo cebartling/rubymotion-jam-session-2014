@@ -85,16 +85,13 @@ class SkyLineScene < SKScene
 
 
   def touchesBegan(touches, withEvent: event)
-    # touch = touches.anyObject
-    # location = touch.locationInNode(self)
-    # node = nodeAtPoint(location)
     dude_jump
   end
 
   def dude_jump
     dude = childNodeWithName(Dude::NAME)
-    dude.physicsBody.velocity = CGVectorMake(0, 2)
-    dude.physicsBody.applyImpulse CGVectorMake(0, 80)
+    dude.physicsBody.velocity = CGVectorMake(0, 1.1)
+    dude.physicsBody.applyImpulse CGVectorMake(0, 40)
   end
 
   def rotate_dude
