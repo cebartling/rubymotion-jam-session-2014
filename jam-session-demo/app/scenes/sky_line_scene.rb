@@ -1,4 +1,5 @@
 class SkyLineScene < SKScene
+
   WORLD = 0x1 << 1
 
   NODE_NAME = 'skyline'
@@ -134,18 +135,6 @@ class SkyLineScene < SKScene
     end
   end
 
-  # Contact delegate method
-  #
-  # def didBeginContact(contact)
-  #   dude = childNodeWithName(Dude::NAME)
-  #   dude.position = CGPointMake(80, CGRectGetMidY(self.frame))
-  #   dude.zRotation = 0
-  #
-  #   enumerateChildNodesWithName "pipes", usingBlock:-> (node, stop) { node.removeFromParent }
-  # end
-
-  # Alternate Contact Method for multiple contact bodies.
-  #
   def didBeginContact(contact)
     if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask
       dude = contact.bodyA
@@ -153,16 +142,14 @@ class SkyLineScene < SKScene
       dude = contact.bodyB
     end
 
-    if dude.categoryBitMask == Bird::BIRD
+    if dude.categoryBitMask == Dude::DUDE
       dude.node.zRotation = 0
       dude.node.position = CGPointMake(80, CGRectGetMidY(self.frame))
-
-      enumerateChildNodesWithName "pipes", usingBlock: -> (node, stop) { node.removeFromParent }
+      # enumerateChildNodesWithName WhiteRussian::NAME,
+      #                             usingBlock: -> (node, stop) { node.removeFromParent }
     end
   end
 
-  # Helper methods.
-  #
   def mid_x
     CGRectGetMidX(self.frame)
   end
