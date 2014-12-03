@@ -24,14 +24,10 @@ class SkyLineScene < SKScene
       skyline.name = NODE_NAME
       skyline.zPosition = -20
       skyline.scale = 1.12
-      # skyline.runAction scroll_action(mid_x, 0.1)
-
       addChild skyline
     end
   end
 
-  # Alternative method to using actions.
-  #
   def move_background
     self.enumerateChildNodesWithName NODE_NAME, usingBlock: -> (node, stop) {
                                                 velocity = CGPointMake(-20, 0)
@@ -52,7 +48,6 @@ class SkyLineScene < SKScene
       ground = SKSpriteNode.spriteNodeWithTexture texture
       ground.position = CGPointMake(x + (i * x * 2), 56)
       ground.runAction scroll_action(x, 0.02)
-
       addChild ground
     end
 
@@ -73,32 +68,26 @@ class SkyLineScene < SKScene
     addChild WhiteRussian.alloc.init
   end
 
-  #
-  # This action is used for both the ground and sky.
-  #
   def scroll_action(x, duration)
     width = (x * 2)
     move = SKAction.moveByX(-width, y: 0, duration: duration * width)
     reset = SKAction.moveByX(width, y: 0, duration: 0)
-
     SKAction.repeatActionForever(SKAction.sequence([move, reset]))
   end
 
   def update(current_time)
     @delta = @last_update_time ? current_time - @last_update_time : 0
     @last_update_time = current_time
-
     check_controller
-
     move_background
     rotate_dude
   end
 
 
   def touchesBegan(touches, withEvent: event)
-    touch = touches.anyObject
-    location = touch.locationInNode(self)
-    node = nodeAtPoint(location)
+    # touch = touches.anyObject
+    # location = touch.locationInNode(self)
+    # node = nodeAtPoint(location)
     dude_jump
   end
 
@@ -145,8 +134,6 @@ class SkyLineScene < SKScene
     if dude.categoryBitMask == Dude::DUDE
       dude.node.zRotation = 0
       dude.node.position = CGPointMake(80, CGRectGetMidY(self.frame))
-      # enumerateChildNodesWithName WhiteRussian::NAME,
-      #                             usingBlock: -> (node, stop) { node.removeFromParent }
     end
   end
 
